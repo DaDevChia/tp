@@ -31,6 +31,7 @@ public class AddSleepCommand extends Command {
     public String[] execute(Data data) {
         SleepList sleeps = data.getSleeps();
         sleeps.add(this.sleep);
+        sleeps.sort();
         int size = sleeps.size();
         String countMessage;
         if (size > 1) {
