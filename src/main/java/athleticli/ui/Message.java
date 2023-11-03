@@ -144,9 +144,11 @@ public class Message {
     public static final String MESSAGE_SLEEP_LIST_EMPTY = "You have no sleep records in your list.";
 
     public static final String MESSAGE_SLEEP_COUNT = "You have tracked a total of %d sleep records. Keep it up!";
-        public static final String MESSAGE_SLEEP_FIRST = "Now you have tracked your first sleep record. This is just " +
-                "the beginning!";
-        public static final String MESSAGE_SLEEP_ADDED = "Well done! I've added this sleep record:";
+    public static final String MESSAGE_SLEEP_FIRST = "Now you have tracked your first sleep record. This is just " +
+            "the beginning!";
+    public static final String MESSAGE_SLEEP_ADDED = "Well done! I've added this sleep record:";
+
+    public static final String MESSAGE_SLEEP_DELETED = "Gotcha, I've deleted this sleep record:";
     
     public static final String MESSAGE_SLEEP_FIND = "I've found these sleeps:";
 
@@ -160,7 +162,7 @@ public class Message {
             "Please specify the index of the sleep record you want to delete.";
     public static final String ERRORMESSAGE_PARSER_SLEEP_EDIT_NO_INDEX =
             "Please specify the index of the sleep record you want to edit.";
-    public static final String ERRORMESSAGE_SLEEP_EDIT_INDEX_OOBE =
+    public static final String ERRORMESSAGE_SLEEP_INDEX_OUT_OF_BOUNDS =
             "The index of the sleep record you want to edit is out of bounds.";
     public static final String ERRORMESSAGE_SLEEP_DELETE_INDEX_OOBE =
             "The index of the sleep record you want to delete is out of bounds.";
