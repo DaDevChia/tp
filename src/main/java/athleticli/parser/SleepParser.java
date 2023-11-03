@@ -11,6 +11,23 @@ import athleticli.ui.Message;
 public class SleepParser {
     //@@author  DaDevChia
     /**
+     * Parses the index of the sleep record.
+     * @param commandArgs The raw user input containing the arguments.
+     * @return index The parsed index of the sleep record.
+     * @throws AthletiException
+     */
+    public static int parseSleepIndex(String commandArgs) throws AthletiException {
+        final String commandArgsTrimmed = commandArgs.trim();
+        int index;
+        try {
+            index = Integer.parseInt(commandArgsTrimmed);
+        } catch (NumberFormatException e) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_INDEX_INVALID);
+        }
+        return index;
+    }
+
+    /**
      * Parses the raw user input for an add sleep command and returns the corresponding command object.
      *
      * @param commandArgs The raw user input containing the arguments.
