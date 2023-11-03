@@ -135,13 +135,19 @@ public class Message {
     public static final String MESSAGE_DIET_FIND = "I've found these diets:";
     public static final String MESSAGE_DIET_NO_CHANGE_REQUESTED = "No change requested. Specify the appropriate " +
             "parameters to edit the diet.";
+
+
     public static final String MESSAGE_SLEEP_DELETE_INVALID_INDEX = "Invalid index. Please enter a valid index.";
     public static final String MESSAGE_SLEEP_DELETE_RETURN = "Got it. I've deleted this sleep record at index %d: %s";
     public static final String MESSAGE_SLEEP_EDIT_RETURN = "Got it. I've changed this sleep record at index %d:";
     public static final String MESSAGE_SLEEP_LIST = "Here are the sleep records in your list:\n";
     public static final String MESSAGE_SLEEP_LIST_EMPTY = "You have no sleep records in your list.";
-    public static final String MESSAGE_SLEEP_ADD_RETURN_1 = "Got it. I've added this sleep record:";
-    public static final String MESSAGE_SLEEP_ADD_RETURN_2 = "Now you have %d sleep records in the list.";
+
+    public static final String MESSAGE_SLEEP_COUNT = "You have tracked a total of %d sleep records. Keep it up!";
+        public static final String MESSAGE_SLEEP_FIRST = "Now you have tracked your first sleep record. This is just " +
+                "the beginning!";
+        public static final String MESSAGE_SLEEP_ADDED = "Well done! I've added this sleep record:";
+    
     public static final String MESSAGE_SLEEP_FIND = "I've found these sleeps:";
 
     public static final String ERRORMESSAGE_PARSER_SLEEP_INVALID_DATE_TIME_FORMAT =
