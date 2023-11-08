@@ -50,10 +50,10 @@ public class SwimTest {
     }
 
     @Test
-    @Disabled
+    @Disabled // Github gradle check fails on this test
     public void testToDetailedString() {
         String expected = "[Swim - Afternoon Swim - August 29, 2023 at 9:45 AM]\n"
-                + "\tDistance: 1.00 km                      Time: 00:35:00\n"
+                + "\tDistance: 1.00 km                      Time: 0h 35m\n"
                 + "\tLaps: 20                               Style: BUTTERFLY\n"
                 + "\tAvg Lap Time: 105 s                    Calories: 0 kcal";
         String actual = swim.toDetailedString();

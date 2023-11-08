@@ -3,11 +3,7 @@ package athleticli.commands.activity;
 import athleticli.commands.Command;
 import athleticli.data.Data;
 import athleticli.data.activity.Activity;
-import athleticli.data.activity.ActivityChanges;
 import athleticli.data.activity.ActivityList;
-import athleticli.data.activity.Cycle;
-import athleticli.data.activity.Run;
-import athleticli.data.activity.Swim;
 import athleticli.exceptions.AthletiException;
 import athleticli.ui.Message;
 
@@ -20,17 +16,17 @@ import java.util.logging.Logger;
 public class EditActivityCommand extends Command {
     private static Logger logger = Logger.getLogger("EditActivityCommand");
     private final int index;
-    private final ActivityChanges activityChanges;
+    private final Activity activity;
 
     /**
      * Constructor for EditActivityCommand.
      * @param index Index of the activity to be edited.
-     * @param activityChanges Updated Activity.
+     * @param activity Updated Activity.
      */
-    public EditActivityCommand(int index, ActivityChanges activityChanges) {
+    public EditActivityCommand(Activity activity, int index) {
         this.index = index;
         assert index > 0 : "Index should be greater than 0";
-        this.activityChanges = activityChanges;
+        this.activity = activity;
     }
 
     /**
@@ -44,35 +40,7 @@ public class EditActivityCommand extends Command {
         logger.log(Level.INFO, "Editing activity at index " + index);
         ActivityList activities = data.getActivities();
         try {
-            Activity activity = activities.get(index-1);
-
-            if (activityChanges.getCaption() != null) {
-                activity.setCaption(activityChanges.getCaption());
-            }
-            if (activityChanges.getDistance() != 0) {
-                activity.setDistance(activityChanges.getDistance());
-            }
-            if (activityChanges.getDuration() != null) {
-                activity.setMovingTime(activityChanges.getDuration());
-            }
-            if (activityChanges.getStartDateTime() != null) {
-                activity.setStartDateTime(activityChanges.getStartDateTime());
-            }
-            if (activityChanges.getElevation() != 0) {
-                Class<?> activityClass = activity.getClass();
-                if (activityClass == Run.class) {
-                    Run run = (Run) activity;
-                    run.setElevationGain(activityChanges.getElevation());
-                } else {
-                    Cycle cycle = (Cycle) activity;
-                    cycle.setElevationGain(activityChanges.getElevation());
-                }
-            }
-            if (activityChanges.getSwimmingStyle() != null) {
-                Swim swim = (Swim) activity;
-                swim.setStyle(activityChanges.getSwimmingStyle());
-            }
-
+            activities.set(index-1, activity);
             logger.log(java.util.logging.Level.INFO, "Activity at index " + index + "successfully edited");
             return new String[]{Message.MESSAGE_ACTIVITY_UPDATED, activity.toString(),
                     String.format(Message.MESSAGE_ACTIVITY_COUNT, activities.size())};

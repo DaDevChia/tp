@@ -16,9 +16,6 @@ import athleticli.commands.diet.ListDietGoalCommand;
 import athleticli.commands.diet.SetDietGoalCommand;
 import athleticli.commands.sleep.FindSleepCommand;
 import athleticli.commands.sleep.ListSleepCommand;
-import athleticli.commands.sleep.SetSleepGoalCommand;
-import athleticli.commands.sleep.EditSleepGoalCommand;
-import athleticli.commands.sleep.ListSleepGoalCommand;
 
 import athleticli.commands.activity.AddActivityCommand;
 import athleticli.commands.activity.DeleteActivityCommand;
@@ -85,14 +82,6 @@ public class Parser {
             return SleepParser.parseSleepDelete(commandArgs);
         case CommandName.COMMAND_SLEEP_FIND:
             return new FindSleepCommand(parseDate(commandArgs));
-        
-        case CommandName.COMMAND_SLEEP_GOAL_LIST:
-            return new ListSleepGoalCommand();
-        case CommandName.COMMAND_SLEEP_GOAL_SET:
-            return new SetSleepGoalCommand(SleepParser.parseSleepGoal(commandArgs));
-        case CommandName.COMMAND_SLEEP_GOAL_EDIT:
-            return new EditSleepGoalCommand(SleepParser.parseSleepGoal(commandArgs));
-        
         /* Activity Management */
         case CommandName.COMMAND_ACTIVITY:
             return new AddActivityCommand(ActivityParser.parseActivity(commandArgs));
@@ -107,15 +96,17 @@ public class Parser {
         case CommandName.COMMAND_ACTIVITY_LIST:
             return new ListActivityCommand(ActivityParser.parseActivityListDetail(commandArgs));
         case CommandName.COMMAND_ACTIVITY_EDIT:
-            return new EditActivityCommand(ActivityParser.parseActivityEditIndex(commandArgs),
-                    ActivityParser.parseActivityEdit(commandArgs));
+            return new EditActivityCommand(ActivityParser.parseActivityEdit(commandArgs),
+                    ActivityParser.parseActivityEditIndex(commandArgs));
         case CommandName.COMMAND_RUN_EDIT:
+            return new EditActivityCommand(ActivityParser.parseRunEdit(commandArgs),
+                    ActivityParser.parseActivityEditIndex(commandArgs));
         case CommandName.COMMAND_CYCLE_EDIT:
-            return new EditActivityCommand(ActivityParser.parseActivityEditIndex(commandArgs),
-                    ActivityParser.parseRunCycleEdit(commandArgs));
+            return new EditActivityCommand(ActivityParser.parseCycleEdit(commandArgs),
+                    ActivityParser.parseActivityEditIndex(commandArgs));
         case CommandName.COMMAND_SWIM_EDIT:
-            return new EditActivityCommand(ActivityParser.parseActivityEditIndex(commandArgs),
-                    ActivityParser.parseSwimEdit(commandArgs));
+            return new EditActivityCommand(ActivityParser.parseSwimEdit(commandArgs),
+                    ActivityParser.parseActivityEditIndex(commandArgs));
         case CommandName.COMMAND_ACTIVITY_FIND:
             return new FindActivityCommand(parseDate(commandArgs));
         case CommandName.COMMAND_ACTIVITY_GOAL_SET:

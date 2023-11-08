@@ -6,8 +6,7 @@ import java.util.Set;
  * Verify the nutrient from a list of approved nutrients to be log in diet and diet goals
  */
 public class NutrientVerifier {
-    public static final Set<String> VERIFIED_NUTRIENTS = Set.of(Parameter.NUTRIENTS_FATS,
-            Parameter.NUTRIENTS_CARB, Parameter.NUTRIENTS_PROTEIN, Parameter.NUTRIENTS_CALORIES);
+    public static final Set<String> VERIFIED_NUTRIENTS = Set.of("fats", "carb", "protein", "calories");
 
     /**
      * Verifies if a nutrient is approved.

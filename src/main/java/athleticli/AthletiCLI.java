@@ -21,15 +21,6 @@ public class AthletiCLI {
     private static Ui ui = Ui.getInstance();
     private static Data data = Data.getInstance();
 
-    private static Thread runSaveCommand = new Thread(() -> {
-        try {
-            final String[] feedback = new SaveCommand().execute(data);
-            ui.showMessages(feedback);
-        } catch (AthletiException e) {
-            ui.showException(e);
-        }
-    });
-
     /**
      * Constructs an <code>AthletiCLI</code> object.
      */
@@ -48,6 +39,15 @@ public class AthletiCLI {
      * @param args  Arguments obtained from the command line.
      */
     public static void main(String[] args) {
+        /* save data when the JVM begins its shutdown sequence */
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            try {
+                final String[] feedback = new SaveCommand().execute(data);
+                ui.showMessages(feedback);
+            } catch (AthletiException e) {
+                ui.showException(e);
+            }
+        }));
         new AthletiCLI().run();
     }
 
@@ -57,15 +57,14 @@ public class AthletiCLI {
      */
     private void run() {
         logger.entering(getClass().getName(), "run");
-        ui.showWelcome();
         try {
             data.load();
         } catch (AthletiException e) {
             ui.showException(e);
-            data.clear();
+            return;
         }
+        ui.showWelcome();
         boolean isExit = false;
-        boolean isShutdownHookAdded = false;
         while (!isExit) {
             final String rawUserInput = ui.getUserCommand();
             try {
@@ -75,12 +74,6 @@ public class AthletiCLI {
                 ui.showMessages(feedback);
                 logger.info("Command executed successfully");
                 isExit = command.isExit();
-                /* add shutdown hook if the first valid command is not exit */
-                if (!isExit && !isShutdownHookAdded) {
-                    /* save data when the JVM begins its shutdown sequence */
-                    Runtime.getRuntime().addShutdownHook(runSaveCommand);
-                    isShutdownHookAdded = true;
-                }
             } catch (AthletiException e) {
                 ui.showException(e);
                 logger.warning("Exception caught: " + e);

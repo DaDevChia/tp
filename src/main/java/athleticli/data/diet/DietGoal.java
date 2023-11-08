@@ -6,15 +6,12 @@ import athleticli.data.Goal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 
-import athleticli.parser.Parameter;
-
 /**
  * Represents a diet goal.
  */
-public abstract class DietGoal extends Goal {
-    protected String nutrient;
-    protected int targetValue;
-    protected String type;
+public class DietGoal extends Goal {
+    private String nutrient;
+    private int targetValue;
 
     /**
      * Constructs a diet goal with no current value.
@@ -27,7 +24,6 @@ public abstract class DietGoal extends Goal {
         super(timespan);
         this.nutrient = nutrient;
         this.targetValue = targetValue;
-        type = "";
     }
 
     /**
@@ -76,14 +72,6 @@ public abstract class DietGoal extends Goal {
         return updateCurrentValue(data);
     }
 
-    /**
-     * Returns the type of diet goal.
-     * @return the type of diet goal.
-     */
-    public String getType() {
-        return type;
-    }
-
     private int updateCurrentValue(Data data) {
         int currentValue = 0;
         DietList diets = data.getDiets();
@@ -94,16 +82,16 @@ public abstract class DietGoal extends Goal {
             dietRecords = diets.find(date);
             for (Diet diet : dietRecords) {
                 switch (nutrient) {
-                case Parameter.NUTRIENTS_FATS:
+                case "fats":
                     currentValue += diet.getFat();
                     break;
-                case Parameter.NUTRIENTS_CALORIES:
+                case "calories":
                     currentValue += diet.getProtein();
                     break;
-                case Parameter.NUTRIENTS_PROTEIN:
+                case "protein":
                     currentValue += diet.getProtein();
                     break;
-                case Parameter.NUTRIENTS_CARB:
+                case "carb":
                     currentValue += diet.getCarb();
                     break;
                 default:
@@ -138,27 +126,12 @@ public abstract class DietGoal extends Goal {
     }
 
     /**
-     * Returns the symbol to indicate if a diet goal is achieved.
-     *
-     * @param data A storage class to retrieve diet information.
-     * @return A string symbol indicating that the goal is achieved.
-     */
-    protected String getSymbol(Data data) {
-        if (isAchieved(data)) {
-            return "[Achieved]";
-        }
-        return "";
-    }
-
-    /**
      * Returns the string representation of the diet goal.
      *
      * @param data A storage class to retrieve diet information.
      * @return The string representation of the diet goal.
      */
     public String toString(Data data) {
-        return getSymbol(data) + " " + getTimeSpan().name() + " " + nutrient
-                + " intake progress: (" + getCurrentValue(data) + "/"
-                + targetValue + ")\n";
+        return nutrient + " intake progress: (" + getCurrentValue(data) + "/" + targetValue + ")\n";
     }
 }

@@ -4,14 +4,19 @@ import java.time.Duration;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
-
-import static athleticli.common.Config.DATE_TIME_FORMATTER;
-import static athleticli.common.Config.DATE_FORMATTER;
+import java.time.format.DateTimeFormatter;
+import java.util.Locale;
 
 /**
  * Represents a sleep record.
  */
 public class Sleep {
+
+    public static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("MMMM d, " +
+            "yyyy 'at' h:mm a", Locale.ENGLISH);
+    private static final DateTimeFormatter DATE_FORMATTER = DateTimeFormatter.ofPattern(
+            "yyyy-MM-dd", Locale.ENGLISH);
+
     private final LocalDateTime startDateTime;
     private final LocalDateTime toDateTime;
 
@@ -21,7 +26,7 @@ public class Sleep {
 
     /**
      * Generates a new sleep record with some basic stats.
-     *
+     * 
      * @param startDateTime Start time of the sleep.
      * @param toDateTime    End time of the sleep.
      */
@@ -84,7 +89,7 @@ public class Sleep {
         String startDateTimeOutput = generateStartDateTimeStringOutput();
         String toDateTimeOutput = generateToDateTimeStringOutput();
         String sleepDateOutput = generateSleepDateStringOutput();
-        return "[Sleep]" + " | " + sleepDateOutput + " | " + startDateTimeOutput +
+        return "[Sleep]" + " | " + sleepDateOutput + " | " + startDateTimeOutput + 
             " | " + toDateTimeOutput + " | " + sleepingDurationOutput;
     }
 

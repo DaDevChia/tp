@@ -11,17 +11,14 @@ import java.util.regex.Pattern;
 import athleticli.data.Goal;
 import athleticli.data.diet.Diet;
 import athleticli.data.diet.DietGoal;
-import athleticli.data.diet.HealthyDietGoal;
-import athleticli.data.diet.UnhealthyDietGoal;
 import athleticli.exceptions.AthletiException;
 import athleticli.ui.Message;
 
 /**
- * Defines the methods for Diet parser and Diet Goal parser
- */
+* Defines the methods for Diet parser and Diet Goal parser
+*/
 public class DietParser {
     //@@author  yicheng-toh
-
     /**
      * @param commandArgsString User provided data to create goals for the nutrients defined.
      * @return a list of diet goals for further checking in the Set Diet Goal Command.
@@ -33,13 +30,13 @@ public class DietParser {
         }
         try {
             String[] commandArgs;
-            if (!commandArgsString.contains(" ")) {
+            if (!commandArgsString.contains(" ")){
                 throw new AthletiException(Message.MESSAGE_DIET_GOAL_INSUFFICIENT_INPUT);
             }
 
             commandArgs = commandArgsString.split("\\s+");
 
-            ArrayList<DietGoal> dietGoals = initializeIntermediateDietGoals(commandArgs);
+            ArrayList<DietGoal> dietGoals = initializeIntermmediateDietGoals(commandArgs);
 
             return dietGoals;
         } catch (NumberFormatException e) {
@@ -49,23 +46,17 @@ public class DietParser {
         }
     }
 
-    private static ArrayList<DietGoal> initializeIntermediateDietGoals(String[] commandArgs) throws AthletiException {
+    private static ArrayList<DietGoal> initializeIntermmediateDietGoals(String[] commandArgs) throws AthletiException {
         String[] nutrientAndTargetValue;
         String nutrient;
         int targetValue;
-        int nutrientStartingIndex = 1;
-        boolean isHealthy = true;
 
         Goal.TimeSpan timespan = ActivityParser.parsePeriod(commandArgs[0]);
-        if (commandArgs[1].toLowerCase().equals("unhealthy")) {
-            isHealthy = false;
-            nutrientStartingIndex += 1;
-        }
 
         ArrayList<DietGoal> dietGoals = new ArrayList<>();
         Set<String> recordedNutrients = new HashSet<>();
 
-        for (int i = nutrientStartingIndex; i < commandArgs.length; i++) {
+        for (int i = 1; i < commandArgs.length; i++) {
             nutrientAndTargetValue = commandArgs[i].split("/");
             nutrient = nutrientAndTargetValue[0];
             targetValue = Integer.parseInt(nutrientAndTargetValue[1]);
@@ -78,12 +69,7 @@ public class DietParser {
             if (recordedNutrients.contains(nutrient)) {
                 throw new AthletiException(Message.MESSAGE_DIET_GOAL_REPEATED_NUTRIENT);
             }
-            DietGoal dietGoal;
-            if (isHealthy) {
-                dietGoal = new HealthyDietGoal(timespan, nutrient, targetValue);
-            } else {
-                dietGoal = new UnhealthyDietGoal(timespan, nutrient, targetValue);
-            }
+            DietGoal dietGoal = new DietGoal(timespan, nutrient, targetValue);
             dietGoals.add(dietGoal);
             recordedNutrients.add(nutrient);
         }
@@ -108,7 +94,6 @@ public class DietParser {
     }
 
     //@@author  nihalzp
-
     /**
      * Parses the raw user input for a diet and returns the corresponding diet object.
      *
@@ -134,7 +119,7 @@ public class DietParser {
         String carb =
                 commandArgs.substring(carbMarkerPos + Parameter.CARB_SEPARATOR.length(), fatMarkerPos).trim();
         String fat = commandArgs.substring(fatMarkerPos + Parameter.FAT_SEPARATOR.length(), datetimeMarkerPos)
-                .trim();
+                             .trim();
         String datetime =
                 commandArgs.substring(datetimeMarkerPos + Parameter.DATETIME_SEPARATOR.length()).trim();
 
