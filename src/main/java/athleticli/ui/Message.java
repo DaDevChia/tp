@@ -138,9 +138,14 @@ public class Message {
     public static final String MESSAGE_DIET_NO_CHANGE_REQUESTED = "No change requested. Specify the appropriate " +
             "parameters to edit the diet.";
 
+<<<<<<< HEAD
     /**
      * Messages for sleep command classes.
      */
+=======
+
+    /* Sleep Messages */
+>>>>>>> 4771195c06606825e9e81337b4740a0596b6bc0c
     public static final String MESSAGE_SLEEP_DELETE_INVALID_INDEX = "Invalid index. Please enter a valid index.";
     public static final String MESSAGE_SLEEP_DELETE_RETURN = "Got it. I've deleted this sleep record at index %d: %s";
     public static final String MESSAGE_SLEEP_EDIT_RETURN = "Got it. I've changed this sleep record at index %d:";
@@ -156,12 +161,20 @@ public class Message {
     
     public static final String MESSAGE_SLEEP_FIND = "I've found these sleeps:";
 
+<<<<<<< HEAD
     public static final String ERRORMESSAGE_SLEEP_INDEX_OUT_OF_BOUNDS =
             "The index of the sleep record you want to edit is out of bounds.";
 
     /**
      * Error messages for sleep parser class.
      */
+=======
+    public static final String MESSAGE_SLEEP_GOAL_ADDED = "Alright, I've added this sleep goal:";
+    public static final String MESSAGE_SLEEP_GOAL_EDITED = "Alright, I've edited this sleep goal:";
+    public static final String MESSAGE_SLEEP_GOAL_LIST = "These are your sleep goals:";
+
+    /* Sleep Error Messages */
+>>>>>>> 4771195c06606825e9e81337b4740a0596b6bc0c
     public static final String ERRORMESSAGE_PARSER_SLEEP_INVALID_DATE_TIME_FORMAT =
             "Invalid date-time format. Please use dd-MM-yyyy HH:mm.";
     public static final String ERRORMESSAGE_PARSER_SLEEP_NO_START_END_DATETIME =
@@ -172,11 +185,33 @@ public class Message {
             "Please specify the index of the sleep record you want to delete.";
     public static final String ERRORMESSAGE_PARSER_SLEEP_EDIT_NO_INDEX =
             "Please specify the index of the sleep record you want to edit.";
+<<<<<<< HEAD
     public static final String ERRORMESSAGE_PARSER_SLEEP_INDEX_INVALID =
             "Please specify a valid index for the sleep record.";
 
 
 
+=======
+    public static final String ERRORMESSAGE_SLEEP_EDIT_INDEX_OOBE =
+            "The index of the sleep record you want to edit is out of bounds.";
+    public static final String ERRORMESSAGE_SLEEP_DELETE_INDEX_OOBE =
+            "The index of the sleep record you want to delete is out of bounds.";
+    
+    public static final String ERRORMESSAGE_PARSER_SLEEP_GOAL_MISSING_PARAMETERS =
+            "Please specify the type, period and target value of your sleep goal.";
+    public static final String ERRORMESSAGE_PARSER_SLEEP_MISSING_PARAMETERS =
+            "Please specify the start and end time of your sleep.";
+    public static final String ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_TYPE =
+            "Please specify the type of your sleep goal as \"duration\".";
+    public static final String ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_PERIOD =
+            "The period must be one of the " +
+            "following: \"daily\", \"weekly\", \"monthly\", \"yearly\"!";
+    public static final String ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_TARGET =
+            "Please specify the target value of your sleep goal as a positive integer.";
+    public static final String ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_PARAMETERS =
+            "Please specify the type, period and target value of your sleep goal.";
+    
+>>>>>>> 4771195c06606825e9e81337b4740a0596b6bc0c
     public static final String MESSAGE_UNKNOWN_COMMAND = "I'm sorry, but I don't know what that means :-(";
     public static final String MESSAGE_IO_EXCEPTION = "An I/O exception occurred.";
     public static final String MESSAGE_LOAD_EXCEPTION = "An exception occurred when loading %s.\n"
