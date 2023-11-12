@@ -1,5 +1,9 @@
 package athleticli.commands.sleep;
 
+<<<<<<< HEAD
+=======
+import java.util.logging.Logger;
+>>>>>>> master
 import athleticli.commands.Command;
 import athleticli.data.Data;
 import athleticli.data.sleep.Sleep;
@@ -11,6 +15,10 @@ import athleticli.ui.Message;
  */
 public class AddSleepCommand extends Command {
     private final Sleep sleep;
+<<<<<<< HEAD
+=======
+    private final Logger logger = Logger.getLogger(AddSleepCommand.class.getName());
+>>>>>>> master
 
     /**
      * Constructor for AddSleepCommand.
@@ -19,6 +27,13 @@ public class AddSleepCommand extends Command {
      */
     public AddSleepCommand(Sleep sleep) {
         this.sleep = sleep;
+<<<<<<< HEAD
+=======
+        logger.fine("Creating AddSleepCommand with sleep: " + sleep.toString());
+        assert sleep.getStartDateTime() != null : "Start time cannot be null";
+        assert sleep.getEndDateTime() != null : "End time cannot be null";
+        assert sleep.getStartDateTime().isBefore(sleep.getEndDateTime()) : "Start time must be before end time";
+>>>>>>> master
     }
 
     /**
@@ -33,6 +48,12 @@ public class AddSleepCommand extends Command {
         sleeps.add(this.sleep);
         sleeps.sort();
         int size = sleeps.size();
+<<<<<<< HEAD
+=======
+        logger.info("Added sleep: " + this.sleep.toString());
+        logger.info("Sleep count: " + sleeps.size());
+        logger.info("Sleep list: " + sleeps.toString());
+>>>>>>> master
         String countMessage;
         if (size > 1) {
             countMessage = String.format(Message.MESSAGE_SLEEP_COUNT, size);

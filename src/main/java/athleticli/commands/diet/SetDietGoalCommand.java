@@ -35,6 +35,13 @@ public class SetDietGoalCommand extends Command {
     @Override
     public String[] execute(Data data) throws AthletiException {
         DietGoalList currentDietGoals = data.getDietGoals();
+<<<<<<< HEAD
+=======
+        verifyNewGoalsValid(currentDietGoals);
+        addNewUserDietGoals(currentDietGoals);
+        return generateSetDietGoalSuccessMessage(data, currentDietGoals);
+    }
+>>>>>>> master
 
         // Validates if the newly defined goal has already existed.
         for (DietGoal dietGoal : currentDietGoals) {
@@ -55,4 +62,24 @@ public class SetDietGoalCommand extends Command {
                 String.format(Message.MESSAGE_DIET_GOAL_COUNT, dietGoalNum)};
     }
 
+<<<<<<< HEAD
+=======
+    private void addNewUserDietGoals(DietGoalList currentDietGoals) {
+        currentDietGoals.addAll(userNewDietGoals);
+    }
+
+    private void verifyNewGoalsValid(DietGoalList currentDietGoals) throws AthletiException {
+        for (DietGoal userDietGoal : userNewDietGoals) {
+            if (!currentDietGoals.isDietGoalUnique(userDietGoal)) {
+                throw new AthletiException(String.format(Message.MESSAGE_DIET_GOAL_ALREADY_EXISTED,
+                        userDietGoal.getNutrient()));
+            } else if (!currentDietGoals.isDietGoalTypeValid(userDietGoal)) {
+                throw new AthletiException(Message.MESSAGE_DIET_GOAL_TYPE_CLASH);
+            } else if (!currentDietGoals.isTargetValueConsistentWithTimeSpan(userDietGoal)) {
+                throw new AthletiException(Message.MESSAGE_DIET_GOAL_TARGET_VALUE_NOT_SCALING_WITH_TIME_SPAN);
+            }
+        }
+    }
+
+>>>>>>> master
 }

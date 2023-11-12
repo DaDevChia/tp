@@ -1,18 +1,20 @@
 package athleticli.parser;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Set;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import athleticli.common.Config;
 import athleticli.data.Goal;
 import athleticli.data.diet.Diet;
 import athleticli.data.diet.DietGoal;
 import athleticli.exceptions.AthletiException;
 import athleticli.ui.Message;
+
+import java.math.BigInteger;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+
+import static athleticli.parser.Parser.getValueForMarker;
 
 /**
 * Defines the methods for Diet parser and Diet Goal parser
@@ -46,18 +48,35 @@ public class DietParser {
         }
     }
 
+<<<<<<< HEAD
     private static ArrayList<DietGoal> initializeIntermmediateDietGoals(String[] commandArgs) throws AthletiException {
+=======
+    private static ArrayList<DietGoal> initializeIntermediateDietGoals(
+            String[] commandArgs) throws AthletiException {
+>>>>>>> master
         String[] nutrientAndTargetValue;
         String nutrient;
         int targetValue;
 
         Goal.TimeSpan timespan = ActivityParser.parsePeriod(commandArgs[0]);
+<<<<<<< HEAD
+=======
+        if (commandArgs[1].equalsIgnoreCase(Parameter.UNHEALTHY_DIET_GOAL_FLAG)) {
+            isHealthy = false;
+            nutrientStartingIndex += 1;
+        }
+>>>>>>> master
 
         ArrayList<DietGoal> dietGoals = new ArrayList<>();
         Set<String> recordedNutrients = new HashSet<>();
 
+<<<<<<< HEAD
         for (int i = 1; i < commandArgs.length; i++) {
             nutrientAndTargetValue = commandArgs[i].split("/");
+=======
+        for (int i = nutrientStartingIndex; i < commandArgs.length; i++) {
+            nutrientAndTargetValue = commandArgs[i].split(Parameter.DIET_GOAL_COMMAND_VALUE_SEPARATOR);
+>>>>>>> master
             nutrient = nutrientAndTargetValue[0];
             targetValue = Integer.parseInt(nutrientAndTargetValue[1]);
             if (targetValue <= 0) {
@@ -111,6 +130,7 @@ public class DietParser {
         checkMissingDietArguments(caloriesMarkerPos, proteinMarkerPos, carbMarkerPos, fatMarkerPos,
                 datetimeMarkerPos);
 
+<<<<<<< HEAD
         String calories = commandArgs.substring(caloriesMarkerPos + Parameter.CALORIES_SEPARATOR.length(),
                 proteinMarkerPos).trim();
         String protein =
@@ -122,6 +142,13 @@ public class DietParser {
                              .trim();
         String datetime =
                 commandArgs.substring(datetimeMarkerPos + Parameter.DATETIME_SEPARATOR.length()).trim();
+=======
+        final String calories = getValueForMarker(commandArgs, Parameter.CALORIES_SEPARATOR);
+        final String protein = getValueForMarker(commandArgs, Parameter.PROTEIN_SEPARATOR);
+        final String carb = getValueForMarker(commandArgs, Parameter.CARB_SEPARATOR);
+        final String fat = getValueForMarker(commandArgs, Parameter.FAT_SEPARATOR);
+        final String datetime = getValueForMarker(commandArgs, Parameter.DATETIME_SEPARATOR);
+>>>>>>> master
 
         checkEmptyDietArguments(calories, protein, carb, fat, datetime);
 
@@ -200,16 +227,19 @@ public class DietParser {
      * @throws AthletiException
      */
     public static int parseCalories(String calories) throws AthletiException {
-        int caloriesParsed;
+        BigInteger caloriesParsed;
         try {
-            caloriesParsed = Integer.parseInt(calories);
+            caloriesParsed = new BigInteger(calories);
         } catch (NumberFormatException e) {
             throw new AthletiException(Message.MESSAGE_CALORIES_INVALID);
         }
-        if (caloriesParsed < 0) {
+        if (caloriesParsed.signum() < 0) {
             throw new AthletiException(Message.MESSAGE_CALORIES_INVALID);
         }
-        return caloriesParsed;
+        if (caloriesParsed.compareTo(BigInteger.valueOf(Config.MAX_INPUT_NUMBER_ALLOWED)) > 0) {
+            throw new AthletiException(Message.MESSAGE_CALORIE_OVERFLOW);
+        }
+        return caloriesParsed.intValue();
     }
 
     /**
@@ -220,16 +250,19 @@ public class DietParser {
      * @throws AthletiException
      */
     public static int parseProtein(String protein) throws AthletiException {
-        int proteinParsed;
+        BigInteger proteinParsed;
         try {
-            proteinParsed = Integer.parseInt(protein);
+            proteinParsed = new BigInteger(protein);
         } catch (NumberFormatException e) {
             throw new AthletiException(Message.MESSAGE_PROTEIN_INVALID);
         }
-        if (proteinParsed < 0) {
+        if (proteinParsed.signum() < 0) {
             throw new AthletiException(Message.MESSAGE_PROTEIN_INVALID);
         }
-        return proteinParsed;
+        if (proteinParsed.compareTo(BigInteger.valueOf(Config.MAX_INPUT_NUMBER_ALLOWED)) > 0) {
+            throw new AthletiException(Message.MESSAGE_PROTEIN_OVERFLOW);
+        }
+        return proteinParsed.intValue();
     }
 
     /**
@@ -240,16 +273,19 @@ public class DietParser {
      * @throws AthletiException
      */
     public static int parseCarb(String carb) throws AthletiException {
-        int carbParsed;
+        BigInteger carbParsed;
         try {
-            carbParsed = Integer.parseInt(carb);
+            carbParsed = new BigInteger(carb);
         } catch (NumberFormatException e) {
             throw new AthletiException(Message.MESSAGE_CARB_INVALID);
         }
-        if (carbParsed < 0) {
+        if (carbParsed.signum() < 0) {
             throw new AthletiException(Message.MESSAGE_CARB_INVALID);
         }
-        return carbParsed;
+        if (carbParsed.compareTo(BigInteger.valueOf(Config.MAX_INPUT_NUMBER_ALLOWED)) > 0) {
+            throw new AthletiException(Message.MESSAGE_CARB_OVERFLOW);
+        }
+        return carbParsed.intValue();
     }
 
     /**
@@ -260,16 +296,19 @@ public class DietParser {
      * @throws AthletiException
      */
     public static int parseFat(String fat) throws AthletiException {
-        int fatParsed;
+        BigInteger fatParsed;
         try {
-            fatParsed = Integer.parseInt(fat);
+            fatParsed = new BigInteger(fat);
         } catch (NumberFormatException e) {
             throw new AthletiException(Message.MESSAGE_FAT_INVALID);
         }
-        if (fatParsed < 0) {
+        if (fatParsed.signum() < 0) {
             throw new AthletiException(Message.MESSAGE_FAT_INVALID);
         }
-        return fatParsed;
+        if (fatParsed.compareTo(BigInteger.valueOf(Config.MAX_INPUT_NUMBER_ALLOWED)) > 0) {
+            throw new AthletiException(Message.MESSAGE_FAT_OVERFLOW);
+        }
+        return fatParsed.intValue();
     }
 
     /**
@@ -285,45 +324,19 @@ public class DietParser {
         }
 
         String[] words = commandArgs.trim().split("\\s+", 2);  // Split into parts
-        int index;
+        BigInteger indexParsed;
         try {
-            index = Integer.parseInt(words[0]);
+            indexParsed = new BigInteger(words[0]);
         } catch (NumberFormatException e) {
             throw new AthletiException(Message.MESSAGE_DIET_INDEX_TYPE_INVALID);
         }
-        if (index < 1) {
+        if (indexParsed.signum() < 0 || indexParsed.signum() == 0) {
             throw new AthletiException(Message.MESSAGE_DIET_INDEX_TYPE_INVALID);
         }
-        return index;
-    }
-
-    /**
-     * Parses the value for a specific marker in a given argument string.
-     *
-     * @param arguments The raw user input containing the arguments.
-     * @param marker    The marker whose value is to be retrieved.
-     * @return The value associated with the given marker, or an empty string if the marker is not found.
-     */
-    public static String getValueForMarker(String arguments, String marker) {
-        String patternString = "";
-
-        if (marker.equals(Parameter.DATETIME_SEPARATOR)) {
-            // Special handling for datetime to capture the date and time
-            patternString = marker + "(\\d{4}-\\d{2}-\\d{2} \\d{2}:\\d{2})";
-        } else {
-            // For other markers, capture a sequence of non-whitespace characters
-            patternString = marker + "(\\S+)";
+        if (indexParsed.compareTo(BigInteger.valueOf(Integer.MAX_VALUE)) > 0) {
+            throw new AthletiException(Message.MESSAGE_INVALID_DIET_INDEX);
         }
-
-        Pattern pattern = Pattern.compile(patternString);
-        Matcher matcher = pattern.matcher(arguments);
-
-        if (matcher.find()) {
-            return matcher.group(1);
-        }
-
-        // Return empty string if no match is found
-        return "";
+        return indexParsed.intValue();
     }
 
     /**
@@ -341,19 +354,19 @@ public class DietParser {
         String fat = getValueForMarker(arguments, Parameter.FAT_SEPARATOR);
         String datetime = getValueForMarker(arguments, Parameter.DATETIME_SEPARATOR);
         if (!calories.isEmpty()) {
-            int caloriesParsed = Integer.parseInt(calories);
+            int caloriesParsed = parseCalories(calories);
             dietMap.put(Parameter.CALORIES_SEPARATOR, Integer.toString(caloriesParsed));
         }
         if (!protein.isEmpty()) {
-            int proteinParsed = Integer.parseInt(protein);
+            int proteinParsed = parseProtein(protein);
             dietMap.put(Parameter.PROTEIN_SEPARATOR, Integer.toString(proteinParsed));
         }
         if (!carb.isEmpty()) {
-            int carbParsed = Integer.parseInt(carb);
+            int carbParsed = parseCarb(carb);
             dietMap.put(Parameter.CARB_SEPARATOR, Integer.toString(carbParsed));
         }
         if (!fat.isEmpty()) {
-            int fatParsed = Integer.parseInt(fat);
+            int fatParsed = parseFat(fat);
             dietMap.put(Parameter.FAT_SEPARATOR, Integer.toString(fatParsed));
         }
         if (!datetime.isEmpty()) {

@@ -70,7 +70,11 @@ class DietGoalListTest {
     @Test
     void unparse_oneDietGoal_expectCorrectFormat() {
         String actualOutput = dietGoals.unparse(proteinGoal);
+<<<<<<< HEAD
         assertEquals("dietGoal WEEKLY protein 10000", actualOutput);
+=======
+        assertEquals("dietGoal WEEKLY protein 10000 healthy", actualOutput);
+>>>>>>> master
     }
 
     @Test

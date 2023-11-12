@@ -33,10 +33,19 @@ public class ListSleepCommand extends Command {
      * Prints the list of sleep records.
      * @param sleeps The current sleep list.
      * @param size The size of the sleep list.
+<<<<<<< HEAD
      * @return The message containing listing of sleep records which will be shown to the user.
      */
     public String[] printList(SleepList sleeps, int size) {
         logger.fine("Printing sleep list");
+=======
+     * @return The message containing list of sleep records which will be shown to the user.
+     */
+    public String[] printList(SleepList sleeps, int size) {
+        logger.fine("Printing sleep list");
+        logger.info("Sleep count: " + sleeps.size());
+        logger.info("Sleep list: " + sleeps.toString());
+>>>>>>> master
         String[] output = new String[size+1];
         output[0] = Message.MESSAGE_SLEEP_LIST;
         for (int i = 0; i < size; i++) {

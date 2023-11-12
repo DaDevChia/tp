@@ -32,6 +32,7 @@ public class DeleteSleepCommand extends Command {
      */
     public String[] execute(Data data) throws AthletiException {
         SleepList sleeps = data.getSleeps();
+<<<<<<< HEAD
         try {
             final Sleep sleep = sleeps.get(index-1);
             sleeps.remove(sleep);
@@ -43,4 +44,17 @@ public class DeleteSleepCommand extends Command {
             throw new AthletiException(Message.ERRORMESSAGE_SLEEP_INDEX_OUT_OF_BOUNDS);
         }
     }
+=======
+        if (index < 1 || index > sleeps.size()) {
+            throw new AthletiException(Message.ERRORMESSAGE_SLEEP_DELETE_INDEX_OOBE);
+        }
+        final Sleep sleep = sleeps.get(index-1);
+        logger.info("Deleting sleep: " + sleep.toString());
+        logger.info("Sleep count: " + sleeps.size());
+        logger.info("Sleep list: " + sleeps.toString());
+        sleeps.remove(sleep);
+        return new String[]{Message.MESSAGE_SLEEP_DELETED, sleep.toString(),
+                String.format(Message.MESSAGE_SLEEP_COUNT, sleeps.size())};
+    } 
+>>>>>>> master
 }

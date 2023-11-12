@@ -2,14 +2,21 @@ package athleticli.parser;
 
 import java.time.LocalDateTime;
 
+<<<<<<< HEAD
 import athleticli.commands.sleep.AddSleepCommand;
 import athleticli.commands.sleep.DeleteSleepCommand;
 import athleticli.commands.sleep.EditSleepCommand;
+=======
+import athleticli.data.Goal;
+import athleticli.data.sleep.Sleep;
+import athleticli.data.sleep.SleepGoal;
+>>>>>>> master
 import athleticli.exceptions.AthletiException;
 import athleticli.ui.Message;
 
 public class SleepParser {
     //@@author  DaDevChia
+    /* Sleep Management */
     /**
      * Parses the index of the sleep record.
      * @param commandArgs The raw user input containing the arguments.
@@ -34,99 +41,114 @@ public class SleepParser {
      * @return An object representing the slee0 add command.
      * @throws AthletiException
      */
-    public static AddSleepCommand parseSleepAdd(String commandArgs) throws AthletiException {
+    public static Sleep parseSleep(String commandArgs) throws AthletiException {
+        final int startDatetimeIndex = commandArgs.indexOf(Parameter.START_TIME_SEPARATOR);
+        final int endDatetimeIndex = commandArgs.indexOf(Parameter.END_TIME_SEPARATOR);
 
-        final int startTimeIndex = commandArgs.indexOf(Parameter.START_TIME_SEPARATOR);
-        final int endTimeIndex = commandArgs.indexOf(Parameter.END_TIME_SEPARATOR);
-
-        if (startTimeIndex == -1 || endTimeIndex == -1 || startTimeIndex > endTimeIndex) {
+        if (startDatetimeIndex == -1 || endDatetimeIndex == -1) {
             throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_NO_START_END_DATETIME);
         }
 
-        final String startTimeStr =
-                commandArgs.substring(startTimeIndex + Parameter.START_TIME_SEPARATOR.length(), endTimeIndex)
+        final String startDatetimeStr =
+                commandArgs.substring(startDatetimeIndex + Parameter.START_TIME_SEPARATOR.length(), endDatetimeIndex)
                         .trim();
-        final String endTimeStr =
-                commandArgs.substring(endTimeIndex + Parameter.END_TIME_SEPARATOR.length()).trim();
+        final String endDatetimeStr =
+                commandArgs.substring(endDatetimeIndex + Parameter.END_TIME_SEPARATOR.length()).trim();
 
-        if (startTimeStr.isEmpty() || endTimeStr.isEmpty()) {
+        if (startDatetimeStr == null || startDatetimeStr.isEmpty() 
+            || endDatetimeStr == null || endDatetimeStr.isEmpty()) {
             throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_NO_START_END_DATETIME);
         }
 
-        // Convert the strings to LocalDateTime
-        final LocalDateTime startTime = Parser.parseDateTime(startTimeStr);
-        final LocalDateTime endTime = Parser.parseDateTime(endTimeStr);
+        final LocalDateTime startDatetime = Parser.parseDateTime(startDatetimeStr);
+        final LocalDateTime endDatetime = Parser.parseDateTime(endDatetimeStr);
 
-        //Check if the start time is before the end time
-        if (startTime.isAfter(endTime)) {
-            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_END_BEFORE_START);
+        if (startDatetime == null || endDatetime == null) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_INVALID_DATETIME);
         }
 
-        return new AddSleepCommand(startTime, endTime);
+        if (startDatetime.isEqual(endDatetime) || startDatetime.isAfter(endDatetime)) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_START_END_NON_CHRONOLOGICAL);
+        }
+
+        return new Sleep(startDatetime, endDatetime);
     }
 
-    /**
-     * Parses the raw user input for a delete sleep command and returns the corresponding command object.
-     *
-     * @param commandArgs The raw user input containing the arguments.
-     * @return An object representing the sleep delete command.
-     * @throws AthletiException
-     */
-    public static DeleteSleepCommand parseSleepDelete(String commandArgs) throws AthletiException {
+    public static int parseSleepIndex(String commandArgs) throws AthletiException {
+        final String indexStr = commandArgs.split("(?<=\\d)(?=\\D)", 2)[0].trim();
+        if (indexStr == null || indexStr.isEmpty()) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_NO_INDEX);
+        }
         int index;
-
         try {
-            index = Integer.parseInt(commandArgs.trim());
+            index = Integer.parseInt(indexStr);
         } catch (NumberFormatException e) {
-            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_DELETE_NO_INDEX);
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_INVALID_INDEX);
+        }
+        return index;
+    }
+<<<<<<< HEAD
+=======
+
+    /*  Sleep Goal Management */
+    public static SleepGoal parseSleepGoal(String commandArgs) throws AthletiException {
+        final int goalTypeIndex = commandArgs.indexOf(Parameter.TYPE_SEPARATOR);
+        final int periodIndex = commandArgs.indexOf(Parameter.PERIOD_SEPARATOR);
+        final int targetValueIndex = commandArgs.indexOf(Parameter.TARGET_SEPARATOR);
+
+        if (goalTypeIndex == -1 || periodIndex == -1 || targetValueIndex == -1) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_GOAL_MISSING_PARAMETERS);
         }
 
-        return new DeleteSleepCommand(index);
+        if (goalTypeIndex > periodIndex || periodIndex > targetValueIndex) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_PARAMETERS);
+        }
+
+        final String type = commandArgs.substring(goalTypeIndex + Parameter.TYPE_SEPARATOR.length(), periodIndex)
+                .trim();
+        final String period = commandArgs.substring(periodIndex + Parameter.PERIOD_SEPARATOR.length(), targetValueIndex)
+                .trim();
+        final String target = commandArgs.substring(targetValueIndex + Parameter.TARGET_SEPARATOR.length()).trim();
+
+        final SleepGoal.GoalType goalType = parseGoalType(type);
+        final Goal.TimeSpan timeSpan = parsePeriod(period);
+        final int targetParsed = parseTarget(target);
+
+        return new SleepGoal(goalType, timeSpan, targetParsed);
     }
 
-    /**
-     * Parses the raw user input for an edit sleep command and returns the corresponding command object.
-     *
-     * @param commandArgs The raw user input containing the arguments.
-     * @return An object representing the sleep edit command.
-     * @throws AthletiException
-     */
-    public static EditSleepCommand parseSleepEdit(String commandArgs) throws AthletiException {
-        final int startTimeIndex = commandArgs.indexOf(Parameter.START_TIME_SEPARATOR);
-        final int endTimeIndex = commandArgs.indexOf(Parameter.END_TIME_SEPARATOR);
-        int index;
-
-        if (startTimeIndex == -1 || endTimeIndex == -1 || startTimeIndex > endTimeIndex) {
-            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_NO_START_END_DATETIME);
+    private static SleepGoal.GoalType parseGoalType(String type) throws AthletiException {
+        switch (type) {
+        case "duration":
+            return SleepGoal.GoalType.DURATION;
+        case "starttime":
+            return SleepGoal.GoalType.STARTTIME;
+        case "endtime":
+            return SleepGoal.GoalType.ENDTIME;
+        default:
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_TYPE);
         }
-
-        try {
-            index = Integer.parseInt(commandArgs.substring(0, startTimeIndex).trim());
-        } catch (NumberFormatException e) {
-            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_EDIT_NO_INDEX);
-        }
-
-        String startTimeStr =
-                commandArgs.substring(startTimeIndex + Parameter.START_TIME_SEPARATOR.length(), endTimeIndex)
-                        .trim();
-        String endTimeStr =
-                commandArgs.substring(endTimeIndex + Parameter.END_TIME_SEPARATOR.length()).trim();
-
-        if (startTimeStr.isEmpty() || endTimeStr.isEmpty()) {
-            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_NO_START_END_DATETIME);
-        }
-
-        // Convert the strings to LocalDateTime
-        LocalDateTime startTime;
-        LocalDateTime endTime;
-        startTime = Parser.parseDateTime(startTimeStr);
-        endTime = Parser.parseDateTime(endTimeStr);
-
-        //Check if the start time is before the end time
-        if (startTime.isAfter(endTime)) {
-            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_END_BEFORE_START);
-        }
-
-        return new EditSleepCommand(index, startTime, endTime);
     }
+
+    private static Goal.TimeSpan parsePeriod(String period) throws AthletiException {
+        try {
+            return Goal.TimeSpan.valueOf(period.toUpperCase());
+        } catch (IllegalArgumentException e) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_PERIOD);
+        }
+    }
+
+    private static int parseTarget(String target) throws AthletiException {
+        int targetParsed;
+        try {
+            targetParsed = Integer.parseInt(target);
+        } catch (NumberFormatException e) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_TARGET);
+        }
+        if (targetParsed <= 0) {
+            throw new AthletiException(Message.ERRORMESSAGE_PARSER_SLEEP_GOAL_INVALID_TARGET);
+        }
+        return targetParsed;
+    }
+>>>>>>> master
 }

@@ -1,6 +1,5 @@
 package athleticli.commands.sleep;
 
-import java.time.LocalDateTime;
 import java.util.logging.Logger;
 
 import athleticli.commands.Command;
@@ -11,12 +10,15 @@ import athleticli.exceptions.AthletiException;
 import athleticli.ui.Message;
 
 /**
- * Executes the edit sleep commands provided by the user.
+ * Executes the edit sleep command provided by the user.
  */
 public class EditSleepCommand extends Command {
-
     private static final Logger logger = Logger.getLogger(EditSleepCommand.class.getName());
     private final int index;
+<<<<<<< HEAD
+=======
+    private final Sleep newSleep;
+>>>>>>> master
 
     /**
      * Constructor for EditSleepCommand.
@@ -24,9 +26,14 @@ public class EditSleepCommand extends Command {
      * @param from New start time of the sleep.
      * @param to New end time of the sleep.
      */
-    public EditSleepCommand(int index, LocalDateTime from, LocalDateTime to) {
+    public EditSleepCommand(int index, Sleep newSleep) {
         this.index = index;
+<<<<<<< HEAD
         logger.fine("Creating EditSleepCommand with index: " + index + " from: " + from + " and to: " + to);
+=======
+        this.newSleep = newSleep;
+        logger.fine("Creating EditSleepCommand with index: " + index);
+>>>>>>> master
     }
     
     /**
@@ -37,6 +44,7 @@ public class EditSleepCommand extends Command {
     public String[] execute(Data data) throws AthletiException {
         SleepList sleeps = data.getSleeps();
         try {
+<<<<<<< HEAD
             final Sleep sleep = sleeps.get(index-1);
             sleeps.remove(sleep);
             assert index > 0 : "Index cannot be less than 0";
@@ -45,6 +53,16 @@ public class EditSleepCommand extends Command {
                     String.format(Message.MESSAGE_SLEEP_COUNT, sleeps.size())};
         } catch (IndexOutOfBoundsException e) {
             throw new AthletiException(Message.ERRORMESSAGE_SLEEP_INDEX_OUT_OF_BOUNDS);
+=======
+            final Sleep oldSleep = sleeps.get(index-1);
+            sleeps.set(index-1, newSleep);
+            logger.info("Activity at index " + index + " successfully edited");
+            return new String[]{Message.MESSAGE_SLEEP_EDITED, 
+                "original: " + oldSleep,
+                "new: " + newSleep};
+        } catch (IndexOutOfBoundsException e) {
+            throw new AthletiException(Message.ERRORMESSAGE_SLEEP_EDIT_INDEX_OOBE);
+>>>>>>> master
         }
     }
 }
