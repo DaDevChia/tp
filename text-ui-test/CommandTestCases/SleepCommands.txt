@@ -1,0 +1,42 @@
+ADD SLEEP COMMAND
+add-sleep start/2000-01-01 19:00 end/2000-01-05 18:01
+add-sleep start/2020-02-28 12:00 end/2020-02-28 12:00
+list-sleep
+
+EDIT SLEEP COMMAND
+edit-sleep 1 start/2020-02-28 12:00 end/2020-02-28 18:00
+edit-sleep 2 start/2020-02-28 12:00 end/2020-02-28 18:00
+edit-sleep 100 start/2020-02-28 12:00 end/2020-02-28 18:00
+list-sleep
+
+DELETE SLEEP COMMAND
+delete-sleep -1
+delete-sleep 0
+delete-sleep 1
+delete-sleep 2
+delete-sleep 1000000000
+list-sleep
+
+FIND SLEEP COMMAND
+find-sleep 2020-02-28
+
+SET SLEEP GOAL COMMAND
+set-sleep-goal type/duration period/daily target/8
+set-sleep-goal type/duration period/weekly target/56
+set-sleep-goal type/duration period/monthly target/240
+set-sleep-goal type/duration period/yearly target/3000
+set-sleep-goal type/duration period/yearly target/4000
+
+LIST SLEEP GOAL COMMAND
+list-sleep-goal
+add-sleep start/2023-02-28 12:00 end/2023-02-28 18:00
+list-sleep-goal
+edit-sleep 1 start/2023-02-28 12:00 end/2023-02-28 18:00
+list-sleep-goal
+
+EDIT SLEEP GOAL COMMAND
+edit-sleep-goal type/duration period/daily target/20
+edit-sleep-goal type/duration period/weekly target/200
+edit-sleep-goal type/duration period/monthly target/1000
+edit-sleep-goal type/duration period/yearly target/10000
+list-sleep-goal
