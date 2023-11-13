@@ -191,9 +191,12 @@ public class Message {
             "The index of the sleep record you want to edit is out of bounds.";
     public static final String ERRORMESSAGE_SLEEP_DELETE_INDEX_OOBE =
             "The index of the sleep record you want to delete is out of bounds.";
+
+    public static final String ERRORMESSAGE_SLEEP_OVERLAP =
+            "The sleep record you are trying to input overlaps with an existing sleep record.";
     public static final String ERRORMESSAGE_DUPLICATE_SLEEP_GOAL =
             "You already have a goal for this type and period! Please edit the existing goal instead.";
-    
+
     public static final String ERRORMESSAGE_PARSER_SLEEP_NO_START_END_DATETIME =
             "Please specify both the start and end time of your sleep.";
     public static final String ERRORMESSAGE_PARSER_SLEEP_START_END_NON_CHRONOLOGICAL =
@@ -206,7 +209,7 @@ public class Message {
     public static final String ERRORMESSAGE_PARSER_SLEEP_NO_INDEX =
             "Please specify the index of the sleep record";
     public static final String ERRORMESSAGE_PARSER_SLEEP_INVALID_INDEX =
-            "Please specify the index of the sleep record you want to edit as a positive integer.";
+            "Please specify the index of the sleep record as a positive integer.";
 
     public static final String ERRORMESSAGE_PARSER_SLEEP_GOAL_MISSING_PARAMETERS =
             "Please specify the type, period and target value of your sleep goal.";
@@ -269,6 +272,13 @@ public class Message {
     public static final String HELP_LIST_DIET = CommandName.COMMAND_DIET_LIST;
     public static final String HELP_FIND_DIET = CommandName.COMMAND_DIET_FIND
             + " DATE";
+    public static final String HELP_SET_DIET_GOAL = CommandName.COMMAND_DIET_GOAL_SET
+            + " <DAILY/WEEKLY> [unhealthy] [calories/CALORIES] [protein/PROTEIN] [carb/CARBS] [fats/FATS]";
+    public static final String HELP_EDIT_DIET_GOAL = CommandName.COMMAND_DIET_GOAL_EDIT
+            + " <DAILIY/WEEKLY> [unhealthy] [calories/CALORIES] [protein/PROTEIN] [carb/CARBS] [fats/FATS]";
+    public static final String HELP_LIST_DIET_GOAL = CommandName.COMMAND_DIET_GOAL_LIST;
+    public static final String HELP_DELETE_DIET_GOAL = CommandName.COMMAND_DIET_GOAL_DELETE
+            + " INDEX";
     public static final String HELP_ADD_SLEEP = CommandName.COMMAND_SLEEP_ADD
             + " start/START end/END";
     public static final String HELP_LIST_SLEEP = CommandName.COMMAND_SLEEP_LIST;
@@ -278,6 +288,13 @@ public class Message {
             + " INDEX start/START end/END";
     public static final String HELP_FIND_SLEEP = CommandName.COMMAND_SLEEP_FIND
             + " DATE";
+    
+    public static final String HELP_SET_SLEEP_GOAL = CommandName.COMMAND_SLEEP_GOAL_SET
+            + " type/TYPE period/PERIOD target/TARGET";
+    public static final String HELP_EDIT_SLEEP_GOAL = CommandName.COMMAND_SLEEP_GOAL_EDIT
+            + " type/TYPE period/PERIOD target/TARGET";
+    public static final String HELP_LIST_SLEEP_GOAL = CommandName.COMMAND_SLEEP_GOAL_LIST;
+
     public static final String HELP_SAVE = CommandName.COMMAND_SAVE;
     public static final String HELP_BYE = CommandName.COMMAND_BYE;
     public static final String HELP_HELP = CommandName.COMMAND_HELP
